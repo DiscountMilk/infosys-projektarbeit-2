@@ -164,7 +164,7 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 ### 7. Schritt:  Simulation der Nutzerinteraktion
 ![Fake Landingpage](images/landingpage.png)
 
-![Harvested Credentials](images/nslookup.png)
+![Harvested Credentials](images/credentials.png)
 
 - Anzeige einer simulierten Login-Seite 
 - Eingabe fiktiver Zugangsdaten in das Formular der Fake-HTML-Seite 
