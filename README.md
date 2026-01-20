@@ -107,9 +107,6 @@ hashcat -m 22000 B6_E9_FA_BC_E4_51_46_C0_8E_E8_A9_AA_full.22000 loesung.txt
 - In diesem Fall ist das geknackte Passwort: `dimonika`
 
 
-- Genaue Schrittweise Anleitung mit Screenshots und Skripten
-- Logs vom erfolgreichen Angriff
-
 # Angriff Intern: DNS Spoofing
 
 DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, indem der Angreifer DNS-Anfragen abfängt und falsche IP-Adressen antwortet. Im Szenario hostet der Angreifer einen eigenen Webserver im Netzwerk, der bei Eingabe von "bank.de" eine Phishing-Seite statt der echten Bank-Website aufruft.
