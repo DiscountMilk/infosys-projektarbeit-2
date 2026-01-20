@@ -118,7 +118,7 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 ## Anleitung
 ### 1. Schritt: Erstellung eines Rogue Access Points
 
-![Pineapple UI](images/pineapple.png)
+![Pineapple UI](images/attack-intern/pineapple.png)
 
 - Verbindung des WiFi Pineapple mit dem Steuerungsrechner 
 - Zugriff auf die grafische Benutzeroberfläche des WiFi Pineapple 
@@ -126,7 +126,7 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 - Vergabe einer SSID, die dem Namen des zu imitierenden WLANs entspricht 
 
 ### 2. Schritt: Bestimmung der Netzwerkparameter des Webservers 
-![Networkparameters](images/ifconfig.png)
+![Networkparameters](images/attack-intern/ifconfig.png)
 
 - Verbindung eines Systems mit dem erstellten Rogue Access Point 
 - Überprüfung der zugewiesenen Netzwerkschnittstelle 
@@ -139,7 +139,7 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 - Simulation einer legitimen Netzwerkseite durch statische Inhalte und definierte Skripte 
 
 ### 4. Schritt:DNS-Umleitung über den WiFi Pineapple
-![DNS Konfiguration](images/hosts.png)
+![DNS Konfiguration](images/attack-intern/hosts.png)
 
 - Die DNS-Zuordnung wird zentral auf dem WiFi Pineapple gesteuert 
 - In der Datei /etc/hosts des WiFi Pineapple wird eine statische Zuordnung definiert 
@@ -147,14 +147,14 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 - DNS-Anfragen der Clients an bank.de werden dadurch automatisch an den Webserver weitergeleitet 
 
 ### 5. Schritt:  Aktivierung der DNS-Konfiguration
-![DNS-Konfiguration](images/dns.png)
+![DNS-Konfiguration](images/attack-intern/dns.png)
 
 - Übernahme der vorgenommenen DNS-Änderungen auf dem WiFi Pineapple 
 - Neustart des DNS-Dienstes, damit die neuen Zuordnungen wirksam werden 
 - Sicherstellung, dass der DNS-Dienst aktiv läuft und Anfragen verarbeitet
 
 ### 6. Schritt: Überprüfung der DNS-Umleitung
-![Nslookup](images/nslookup.png)
+![Nslookup](images/attack-intern/nslookup.png)
 
 - Durchführung einer DNS-Abfrage für den definierten Domainnamen (bank.de) 
 - Verwendung des Werkzeugs nslookup zur Überprüfung der Namensauflösung 
@@ -162,9 +162,9 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 - Überprüfung, dass bank.de auf die IP-Adresse des eingerichteten Webservers aufgelöst wird
 
 ### 7. Schritt:  Simulation der Nutzerinteraktion
-![Fake Landingpage](images/landingpage.png)
+![Fake Landingpage](images/attack-intern/landingpage.png)
 
-![Harvested Credentials](images/credentials.png)
+![Harvested Credentials](images/attack-intern/credentials.png)
 
 - Anzeige einer simulierten Login-Seite 
 - Eingabe fiktiver Zugangsdaten in das Formular der Fake-HTML-Seite 
@@ -238,7 +238,7 @@ DNS-Antworten werden kryptografisch signiert. Der Resolver prüft die Signatur u
 - Hohes Schlüsselmanagement (Key-Rotation, Fehleranalyse)
 - Laufender Admin-Aufwand: 3–5 Personentage/Jahr 
 - Gesamtaufwand: Hoch (~5.000–10.000 €/Jahr), Nutzen: Sehr hoch aber disproportional 
-- Empfehlung: NUR für kritische Infrastrukturen, nicht für KMU ✗
+- Empfehlung: NUR für kritische Infrastrukturen, nicht für KMU
 
 # ROSI
 
@@ -277,21 +277,103 @@ Geschätzter Schaden im Ernstfall: **150.000 €**
 
 ![Risikomatrix](images/Risikomatrix.png)
 
+| Risiko             | Impact        | Likelihood       | Einstufung     | Erwarteter Jahresverlust EAL    |
+|--------------------| ------------- |------------------|----------------|---------------------------------|
+| WLAN-Komprimittierung | Mittel (200k) | Gering (3%)      | Mittel         | 0,03 × 200.000 € = 6.000 €/Jahr |
+| DNS-Spoofing       | Mittel (150k) | Sehr-Gering (1%) | Niedrig–Mittel | 0,01 × 1 50.000 € = 500 €/Jahr  |
 
-## 
+## Berechnungen
 
+### WPA3 Einführen
 
-| Name               | Zweck              |
-|--------------------| ------------------ |
-| Maßnahme           | Angreifer-System   |
-| WiFi Pineapple MK7 | Deauth + Rogue-AP  |
-| Hashcat            | Passwort knacken   |
-| Wireshark          | Pakete analysieren |
-| Smartphone-Hotspot | Opfer-WLAN         |
-| Laptop             | Opfer-Client       |
+**Annahmen zu Kosten**
 
+- SWDS hat 10 Business-Access-Points. 
+- Neuer WPA3-fähiger AP kostet 200 € statt 100 €. 
+- Hardwarekosten gesamt: 10 × (200 – 100) € = 1.000 € Mehrkosten. 
+- Installations-/Konfigurationsaufwand:
+  - 1 IT-Admin-Tag à 500 € (Personalkosten + Overhead) → 500 €.
 
-# Fazit / Handlungsempfehlung
+Gesamtinvestition 1.000 € + 500 € = **1.500 €**
+
+**Risikoreduktion**
+
+- Mit WPA3 (inkl. geschützten Management Frames) gilt:
+  - Deauth-basierter Handshake-Mitschnitt praktisch nicht mehr möglich. 
+  - Rest-Risiko nur noch durch andere Angriffswege (Social Engineering etc.).
+- Konservativ:
+  - EAL_vor (Expected Annual Loss) = 6.000 €/Jahr
+  - EAL_nach = 600 €/Jahr (Restrestrisiko 10% des ursprünglichen)
+  **- Risk Reduction = 90%**
+
+$$
+ROSI = \frac{0{,}9 \times 200.000 - 1.500}{1.500} \approx 119
+$$
+
+- **ROSI ≈ 11.900%** → Jeder investierte Euro bringt im Erwartungswert 119 € zurück (in vermiedenen Schäden).
+
+### Port 80 blockieren
+
+**Annahmen zu Kosten**
+
+- Anpassung der Firewall-Regel durch IT-Admin: 30 Minuten. 
+- Stundensatz Admin: 60 € → 30 €. 
+- Keine zusätzlichen Lizenz- oder Hardwarekosten.
+  
+Gesamtinvestition = **30 €**
+
+**Risikoreduktion**
+
+- Mit blockiertem HTTP:
+  - Angreifer kann User noch auf Fake-Seite umleiten, aber:
+    - Browser verweigert unverschlüsseltes HTTP. 
+    - Zertifikatsfehler bei selbstsignierten/gefälschten HTTPS-Seiten.
+- Konservativ:
+  - EAL_vor = 500 €/Jahr
+  - EAL_nach = 100 €/Jahr (Restrestrisiko 20% des ursprünglichen)
+  **- Risk Reduction = 80%**
+
+$$
+ROSI = \frac{0{,}8 \times 150.000 - 30}{30} \approx 3.999
+$$
+
+- **ROSI ≈ 399.900%** → Jeder investierte Euro bringt im Erwartungswert 3.999 € zurück (in vermiedenen Schäden).
+
+### Starke WLAN-Passwörter
+
+Falls WPA3 kurzfristig nicht umsetzbar ist, kann eine „Quick-Win“-Maßnahme separat bewertet werden.
+
+**Annahmen zu Kosten**
+
+- Anpassung des WLAN-Passworts durch IT-Admin: 30 Minuten.
+- Stundensatz Admin: 60 € → 30 €.
+
+Gesamtinvestition = **30 €**
+
+**Risikoreduktion**
+
+- Starkes Passwort ⇒ Handshake knacken per Wordlist/Bruteforce wird viel aufwendiger.
+- Konservativ:
+  - EAL_vor (Expected Annual Loss) = 6.000 €/Jahr
+  - EAL_nach = 3.600 €/Jahr (Restrestrisiko 40% des ursprünglichen)
+    **- Risk Reduction = 60%**
+
+$$
+ROSI = \frac{0{,}6 \times 200.000 - 30}{30} \approx 3.999
+$$
+
+- **ROSI ≈ 399.900%** → Jeder investierte Euro bringt im Erwartungswert 3.999 € zurück (in vermiedenen Schäden).
+
+## ROSI Übersicht
+
+| Maßnahme           | Kosten  | RiskReduction | ROSI     | Empfehlung      |
+| ------------------ |---------|---------------|----------| --------------- |
+| WPA3 einführen     | 1.500 € | 90%           | 11.900%  | Sofort planen   |
+| Port 80 blockieren | 30 €    | 80%           | 399.900% | Sofort umsetzen |
+| Starke Passwörter  | 30 €    | 60%           | 399.900% | Quick-Win       |
+
+# Fazit
+
 
 
 
