@@ -76,6 +76,35 @@ Einfache WPA2-WLAN-Testumgebung mit Smartphone-Hotspot, vollständig isoliert.
 - Der erfolgreiche Handshake wird in der Pineapple UI im Handshake Tab angezeigt.
 - Die Handshakes werden in PCAP und Hashcat’s 22000 Format gespeichert.
 
+### 6. Schritt: loesung.txt Datei erstellen
+
+![Loesung Datei](images/attack-extern/loesungtxt.png)
+
+- Um einen Bruteforce-Angriff mit Hashcat durchzuführen, muss eine loesung.txt Datei erstellt werden.
+- Diese Datei enthält eine Sammlung von möglichen Passwörtern, die für den Angriff verwendet werden.
+
+### 7. Schritt: WPA2-Passwort mit Hashcat knacken
+
+- Die Datei im 22000 Format wird mit Hashcat und der loesung.txt Datei verwendet, um das WPA2-Passwort zu knacken.
+- die .22000 Datei und die loesung.txt Datei müssen im selben Verzeichnis liegen.
+- Dann muss folgender Befehl im Terminal ausgeführt werden:
+```bash
+hashcat -m 22000 B6_E9_FA_BC_E4_51_46_C0_8E_E8_A9_AA_full.22000 loesung.txt
+```
+
+### 8. Schritt: Erfolgreich geknacktes Passwort verwenden
+
+![Hashcat Ergebnis](images/attack-extern/Hashcat.png)
+
+- Nach erfolgreichem Knacken des Passworts wird dieses im Terminal angezeigt.
+
+
+  ![Geknacktes Passwort](images/attack-extern/Hashcat-pw.png)
+- Das Passwort wird aus dem Terminal nun entnommen an folgender Stelle:
+```
+  [Hash]:[Mac-Adresse 1]:[Mac-Adresse 2]:[WLAN-Name]:[Geknacktes Passwort]
+```
+- In diesem Fall ist das geknackte Passwort: `dimonika`
 
 
 - Genaue Schrittweise Anleitung mit Screenshots und Skripten
