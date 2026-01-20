@@ -69,17 +69,108 @@ DNS-Spoofing leitet Clients im lokalen Netzwerk auf gefälschte Webseiten um, in
 - Testumgebungsaufbau
 - Konfigurationen (wenn benötigt - nicht zu ausführlich)
 
+### Benötigte Tools 
+| Kategorie | Tool / Komponente | Zweck |
+|-----------|-------------------|-------|
+| Hardware | WiFi Pineapple | Bereitstellung des Rogue Access Points und zentrale Netzwerksteuerung |
+| Hardware | Client Laptop | Simulation eines Endgeräts im Rogue-Netzwerk |
+| Webserver | Docker-Container (Flask) | Auslieferung der simulierten Login-Seite |
+| DNS | dnsmasq (Pineapple) | Zentrale DNS-Auflösung im Rogue-Netzwerk |
+| Analyse | nslookup | Überprüfung der DNS-Auflösung |
+
+### Netzwerkdiagramm
+```
+┌─────────────────────────────────┐
+│       Test-Client (macOS)       │
+│      IP: 172.16.42.10           │
+│      DNS: 172.16.42.1           │
+│      Gateway: 172.16.42.1       │
+└───────────────┬─────────────────┘
+                │ WLAN
+                │ ① DNS Query: google.com?
+                │ ② DNS Response: 172.16.42.138
+                ▼
+┌─────────────────────────────────┐
+│       WiFi Pineapple            │
+│      IP: 172.16.42.1            │
+│      DHCP Server: aktiv         │
+│      DNS Server: dnsmasq        │
+│      DNS Spoofing: aktiv        │
+└───────────────┬─────────────────┘
+                │ LAN
+                │ ③ HTTP Request
+                ▼
+┌─────────────────────────────────┐
+│       Webserver (Docker)        │
+│      IP: 172.16.42.138          │
+│      Port: 80 (HTTP)            │
+│      App: Flask Fake Login      │
+└─────────────────────────────────┘
+```
+### Testumgebung
+- Der WiFi Pineapple stellt ein offenes WLAN als Rogue Access Point bereit 
+- Clients verbinden sich direkt mit diesem WLAN 
+- Der WiFi Pineapple fungiert als zentrale Netzwerk- und DNS-Instanz 
+- Ein separater Webserver ist im selben Netzwerk eingebunden 
+- DNS-Anfragen der Clients werden innerhalb des Rogue-Netzwerks verarbeitet 
+- Bestimmte Domainanfragen werden gezielt auf den Webserver aufgelöst 
+
 ## Anleitung
+### 1. Schritt: Erstellung eines Rogue Access Points
 
-1. Wifi aktivieren im Pineapple 
-2. 
-2. Pineapple mus weitherin mit Internetn verbunden sein
-3. Docker Composen starten (startet backend, das die Credentials Loggt und Frontend starten wo user sich anmelden müssen)
-4. Jemand loggt sich in das Rogue AP ein  
+![Pineapple UI](images/pineapple.png)
 
+- Verbindung des WiFi Pineapple mit dem Steuerungsrechner 
+- Zugriff auf die grafische Benutzeroberfläche des WiFi Pineapple 
+- Anlegen eines offenen Access Points
+- Vergabe einer SSID, die dem Namen des zu imitierenden WLANs entspricht 
 
-- Genaue Schrittweise Anleitung mit Screenshots und Skripten
-- Logs vom erfolgreichen Angriff
+### 2. Schritt: Bestimmung der Netzwerkparameter des Webservers 
+![Networkparameters](images/ifconfig.png)
+
+- Verbindung eines Systems mit dem erstellten Rogue Access Point 
+- Überprüfung der zugewiesenen Netzwerkschnittstelle 
+- Ermittlung der automatisch vergebenen IP-Adresse 
+- Nutzung dieser Informationen als Grundlage für die weitere Netzwerkintegration 
+
+### 3. Schritt: Einbindung eines Webservers in das erstellte Netzwerk
+- Betrieb des Webservers im selben Netzwerksegment wie die verbundenen Clients 
+- Bereitstellung einer vorbereiteten Landing Page auf dem Webserver 
+- Simulation einer legitimen Netzwerkseite durch statische Inhalte und definierte Skripte 
+
+### 4. Schritt:DNS-Umleitung über den WiFi Pineapple
+![DNS Konfiguration](images/hosts.png)
+
+- Die DNS-Zuordnung wird zentral auf dem WiFi Pineapple gesteuert 
+- In der Datei /etc/hosts des WiFi Pineapple wird eine statische Zuordnung definiert 
+- In diesem Projekt wird der Domainname bank.de auf die IP-Adresse des eingerichteten Webservers aufgelöst 
+- DNS-Anfragen der Clients an bank.de werden dadurch automatisch an den Webserver weitergeleitet 
+
+### 5. Schritt:  Aktivierung der DNS-Konfiguration
+![DNS-Konfiguration](images/dns.png)
+
+- Übernahme der vorgenommenen DNS-Änderungen auf dem WiFi Pineapple 
+- Neustart des DNS-Dienstes, damit die neuen Zuordnungen wirksam werden 
+- Sicherstellung, dass der DNS-Dienst aktiv läuft und Anfragen verarbeitet
+
+### 6. Schritt: Überprüfung der DNS-Umleitung
+![Nslookup](images/nslookup.png)
+
+- Durchführung einer DNS-Abfrage für den definierten Domainnamen (bank.de) 
+- Verwendung des Werkzeugs nslookup zur Überprüfung der Namensauflösung 
+- Kontrolle, welcher DNS-Server die Anfrage beantwortet 
+- Überprüfung, dass bank.de auf die IP-Adresse des eingerichteten Webservers aufgelöst wird
+
+### 7. Schritt:  Simulation der Nutzerinteraktion
+![Fake Landingpage](images/landingpage.png)
+
+![Harvested Credentials](images/nslookup.png)
+
+- Anzeige einer simulierten Login-Seite 
+- Eingabe fiktiver Zugangsdaten in das Formular der Fake-HTML-Seite 
+- Übermittlung der eingegebenen Testdaten an den angebundenen Webserver 
+- Protokollierung der übermittelten Formularinhalte in den Server-Logs
+- Auswertung der Logeinträge zur Bestätigung der korrekten Datenübertragung 
 
 # Gegenmaßnahmen
 
