@@ -42,6 +42,41 @@ Einfache WPA2-WLAN-Testumgebung mit Smartphone-Hotspot, vollständig isoliert.
 
 
 ## Anleitung
+### 1. Schritt: Pineapple am Angreifer Laptop anschließen
+
+- Website http://172.16.42.1:1471 aufrufen, sobald Licht beim Pineapple dauerhaft Blau leuchtet. 
+
+### 2. Schritt: Einloggen in die Pineapple UI
+
+![Login Pineapple](images/attack-extern/pineapple-login.png)
+
+- Auf der Anmeldeseite muss folgendes Passwort eingegeben werden: hak5pineapple 
+
+### 3. Schritt: Scanning nach WLANs
+
+![WLAN Scannen](images/attack-extern/pineapple-scan.png)
+
+- Auf der Recon-Seite gibt es einen Button "Scan", dieser soll ausgeführt werden, um nach verfügbaren WLANs zu suchen.
+- Es wird dann eine Liste mit gefundenen Netzwerken angezeigt mit deren verbundenen Clients.
+
+### 4. Schritt: Deauthentication-Angriff starten
+
+![Deauth Angriff](images/attack-extern/pineapple-deauth.png)
+
+- Nach Auswahl des Zielnetzwerks und der verbundenen Clients, erscheint ein Seitenabschnitt rechts.
+- Dort kann der Deauthentication-Angriff gestartet werden, indem auf den Button "Deauthenticate All Clients" geklickt wird.
+- nach der Ausführung werden die Clients aus dem Netzwerk getrennt und versuchen sich wieder zu verbinden.
+
+
+### 5. Schritt: WPA2-Handshake abfangen
+
+![Handshake Abfangen](images/attack-extern/pineapple-handshake.png)
+
+- Sobald sich ein Client wieder mit dem echten Netzwerk verbindet, wird der WPA2-Handshake abgefangen.
+- Der erfolgreiche Handshake wird in der Pineapple UI im Handshake Tab angezeigt.
+- Die Handshakes werden in PCAP und Hashcat’s 22000 Format gespeichert.
+
+
 
 - Genaue Schrittweise Anleitung mit Screenshots und Skripten
 - Logs vom erfolgreichen Angriff
