@@ -440,7 +440,12 @@ $$
 
 # Fazit
 
+Dieses Projekt hat erfolgreich demonstriert, dass herkömmliche WPA2-Netzwerke ohne zusätzliche Schutzmaßnahmen (wie Management Frame Protection) anfällig für triviale Angriffe sind. 
+In der isolierten Testumgebung konnte der vollständige Angriffsvektor – vom initialen Eindringen bis zur Datenexfiltration – reproduziert werden.
+
+Die durchgeführte ROSI-Analyse verdeutlicht jedoch, dass Unternehmen diesen Risiken mit wirtschaftlich vertretbaren Mitteln begegnen können. 
+Während die Einführung von WPA3 Investitionen in neue Hardware erfordert (ROSI ~11.900 %), bieten einfache Maßnahmen wie das Blockieren von unverschlüsseltem HTTP-Traffic oder die Durchsetzung 
+komplexer Passwörter bereits einen enormen Sicherheitsgewinn bei minimalen Kosten (ROSI ~399.900 %).
 
 
-
-
+Zusammenfassend zeigt das Projekt: Die Verteidigung erfordert daher keine "Wunderwaffen", sondern die konsequente Umsetzung grundlegender Sicherheitsstandards (WPA3, HTTPS-Only, Awareness).
