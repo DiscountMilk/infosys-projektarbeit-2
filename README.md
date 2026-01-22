@@ -4,7 +4,9 @@ Dieses Projekt demonstriert einen Man-in-the-Middle-Angriff in einer vollständi
 Zunächst wird ein Deauthentication-Angriff auf ein WPA2-WLAN durchgeführt, um den 4-Wege-Handshake abzufangen und das Passwort offline zu knacken. 
 Anschließend wird im internen Netzwerk DNS-Spoofing eingesetzt, um Clients auf eine gefälschte Webseite umzuleiten und Anmeldeinformationen zu stehlen.
 
+Auch werden Gegenmaßnahmen vorgestellt und deren Wirtschaftlichkeit mittels ROSI (Return on Security Investment) bewertet.
 Ziel ist die Vermittlung von Angriffs- und Abwehrmechanismen ausschließlich zu Forschungs- und Bildungszwecken in kontrollierter Umgebung.
+
 # Angriff Extern: Deauthentication Attack
 
 Ein Deauthentication-Angriff zwingt WLAN-Clients aus einem WPA2-Netzwerk heraus, um sie zu einem Rogue-Access-Point (AP) des Angreifers zu locken. Dies nutzt den automatischen Wiederverbindungsmechanismus der Geräte aus, wodurch der Angreifer sensible Daten abfangen oder das Passwort knacken kann.
