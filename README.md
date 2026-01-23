@@ -341,7 +341,7 @@ Geschätzter Schaden im Ernstfall: **150.000 €**
 
 ## Risikomatrix
 
-![Risikomatrix](images/Risikomatrix.png)
+![Risikomatrix](images/Riskmatrix.png)
 
 | Risiko                 | Impact          | Likelihood       | Einstufung     | Erwarteter Jahresverlust EAL    |
 |------------------------|-----------------|------------------|----------------|---------------------------------|
