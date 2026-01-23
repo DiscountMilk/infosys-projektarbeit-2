@@ -343,10 +343,10 @@ Geschätzter Schaden im Ernstfall: **150.000 €**
 
 ![Risikomatrix](images/Risikomatrix.png)
 
-| Risiko             | Impact        | Likelihood       | Einstufung     | Erwarteter Jahresverlust EAL    |
-|--------------------| ------------- |------------------|----------------|---------------------------------|
-| WLAN-Komprimittierung | Mittel (200k) | Gering (3%)      | Mittel         | 0,03 × 200.000 € = 6.000 €/Jahr |
-| DNS-Spoofing       | Mittel (150k) | Sehr-Gering (1%) | Niedrig–Mittel | 0,01 × 1 50.000 € = 500 €/Jahr  |
+| Risiko                 | Impact          | Likelihood       | Einstufung     | Erwarteter Jahresverlust EAL    |
+|------------------------|-----------------|------------------|----------------|---------------------------------|
+| WLAN-Komprimittierung  | Mittel (200k)   | Gering (3%)      | Mittel         | 0,03 × 200.000 € = 6.000 €/Jahr |
+| DNS-Spoofing           | Mittel (150k)   | Sehr-Gering (1%) | Niedrig–Mittel | 0,01 × 150.000 € = 1.500 €/Jahr |
 
 ## Berechnungen
 
@@ -373,10 +373,10 @@ Gesamtinvestition 1.000 € + 500 € = **1.500 €**
   **- Risk Reduction = 90%**
 
 $$
-ROSI = \frac{0{,}9 \times 200.000 - 1.500}{1.500} \approx 119
+ROSI = \frac{0{,}9 \times 6.000 - 1.500}{1.500} \approx 2,6
 $$
 
-- **ROSI ≈ 11.900%** → Jeder investierte Euro bringt im Erwartungswert 119 € zurück (in vermiedenen Schäden).
+- **ROSI ≈ 260 %** → Jeder investierte Euro bringt im Erwartungswert 2,6 € zurück (in vermiedenen Schäden).
 
 ### Port 80 blockieren
 
@@ -395,15 +395,15 @@ Gesamtinvestition = **30 €**
     - Browser verweigert unverschlüsseltes HTTP. 
     - Zertifikatsfehler bei selbstsignierten/gefälschten HTTPS-Seiten.
 - Konservativ:
-  - EAL_vor = 500 €/Jahr
-  - EAL_nach = 100 €/Jahr (Restrestrisiko 20% des ursprünglichen)
+  - EAL_vor = 1.500 €/Jahr
+  - EAL_nach = 1.200 €/Jahr (Restrestrisiko 20% des ursprünglichen)
   **- Risk Reduction = 80%**
 
 $$
-ROSI = \frac{0{,}8 \times 150.000 - 30}{30} \approx 3.999
+ROSI = \frac{0{,}8 \times 1.500 - 30}{30} \approx 39
 $$
 
-- **ROSI ≈ 399.900%** → Jeder investierte Euro bringt im Erwartungswert 3.999 € zurück (in vermiedenen Schäden).
+- **ROSI ≈ 390 %** → Jeder investierte Euro bringt im Erwartungswert 39 € zurück (in vermiedenen Schäden).
 
 ### Starke WLAN-Passwörter
 
@@ -425,18 +425,18 @@ Gesamtinvestition = **30 €**
     **- Risk Reduction = 60%**
 
 $$
-ROSI = \frac{0{,}6 \times 200.000 - 30}{30} \approx 3.999
+ROSI = \frac{0{,}6 \times 6.000 - 30}{30} \approx 119
 $$
 
-- **ROSI ≈ 399.900%** → Jeder investierte Euro bringt im Erwartungswert 3.999 € zurück (in vermiedenen Schäden).
+- **ROSI ≈ 11.900 %** → Jeder investierte Euro bringt im Erwartungswert 119 € zurück (in vermiedenen Schäden).
 
 ## ROSI Übersicht
 
-| Maßnahme           | Kosten  | RiskReduction | ROSI     | Empfehlung      |
-| ------------------ |---------|---------------|----------| --------------- |
-| WPA3 einführen     | 1.500 € | 90%           | 11.900%  | Sofort planen   |
-| Port 80 blockieren | 30 €    | 80%           | 399.900% | Sofort umsetzen |
-| Starke Passwörter  | 30 €    | 60%           | 399.900% | Quick-Win       |
+| Maßnahme           | Kosten  | RiskReduction | ROSI    | Empfehlung      |
+| ------------------ |---------|---------------|---------| --------------- |
+| WPA3 einführen     | 1.500 € | 90%           | 260%    | Sofort planen   |
+| Port 80 blockieren | 30 €    | 80%           | 39%     | Sofort umsetzen |
+| Starke Passwörter  | 30 €    | 60%           | 11.900% | Quick-Win       |
 
 # Fazit
 
@@ -444,8 +444,8 @@ Dieses Projekt hat erfolgreich demonstriert, dass herkömmliche WPA2-Netzwerke o
 In der isolierten Testumgebung konnte der vollständige Angriffsvektor – vom initialen Eindringen bis zur Datenexfiltration – reproduziert werden.
 
 Die durchgeführte ROSI-Analyse verdeutlicht jedoch, dass Unternehmen diesen Risiken mit wirtschaftlich vertretbaren Mitteln begegnen können. 
-Während die Einführung von WPA3 Investitionen in neue Hardware erfordert (ROSI ~11.900 %), bieten einfache Maßnahmen wie das Blockieren von unverschlüsseltem HTTP-Traffic oder die Durchsetzung 
-komplexer Passwörter bereits einen enormen Sicherheitsgewinn bei minimalen Kosten (ROSI ~399.900 %).
+Während die Einführung von WPA3 Investitionen in neue Hardware erfordern, bieten einfache Maßnahmen wie das Blockieren von unverschlüsseltem HTTP-Traffic oder die Durchsetzung 
+komplexer Passwörter bereits einen enormen Sicherheitsgewinn bei minimalen Kosten.
 
 
 Zusammenfassend zeigt das Projekt: Die Verteidigung erfordert daher keine "Wunderwaffen", sondern die konsequente Umsetzung grundlegender Sicherheitsstandards (WPA3, HTTPS-Only, Awareness).
